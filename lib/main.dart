@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -33,14 +35,58 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  String word = "";
-  String revWord = "";
-  int cons = 0;
-  int vow = 0;
-  int char = 0;
-  bool pal = false;
+  String _word = "";
+  String _revWord = "";
+  int _cons = 0;
+  int _vows = 0;
+  int _chars = 0;
+  bool _pal = false;
 
-  TextEditingController wordTEC = TextEditingController();
+  void _setWord(String word) {
+    setState(() {
+      _word = word;
+    });
+  }
+
+  void _setRevWord(String word) {
+    setState(() {
+      _revWord = word.split('').reversed.join();
+    });
+  }
+
+  void _setVows(String word) {
+    setState(() {
+      int a, e, i, o, u;
+      a = 'a'.allMatches(word).length;
+      e = 'e'.allMatches(word).length;
+      i = 'i'.allMatches(word).length;
+      o = 'o'.allMatches(word).length;
+      u = 'u'.allMatches(word).length;
+      _vows = a + e + i + o + u;
+    });
+  }
+
+  void _setCons(int chars, int vows) {
+    setState(() {
+      _cons = _chars - _vows;
+    });
+  }
+
+  void _setChars(String word) {
+    setState(() {
+      _chars = word.length;
+    });
+  }
+
+  void _setPal(String word, String revWord) {
+    setState(() {
+      if (word = revWord) {
+        _pal = true;
+      }
+    });
+  }
+
+  //TextEditingController wordTEC = TextEditingController();
 
   void _incrementCounter() {
     setState(() {
@@ -50,46 +96,36 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: const <Widget>[
-            Text(
-              "Enter your word",
-              style: TextStyle(fontSize: 20),
-            ),
-            TextField(
-              controller: wordTEC,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Your word',
-                setState(() {
-                  word = wordTEC;
-                },)
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: Center(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: const <Widget>[
+              Text(
+                "Enter your word",
+                style: TextStyle(fontSize: 20),
               ),
-            ),
-            TextButton(
-              onPressed: null,
-              child: Text('Analyze!')
-            ),
-            Text("Reversed Word: "),
-            Text("No of Consonants: "),
-            Text("No if Vowels: "),
-            Text("No of characters: "),
-            Text("Palindrome: ")
+              TextField(
+                onChanged: (text) {},
+                //controller: wordTEC,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Your word',
+                ),
+              ),
+              TextButton(onPressed: null, child: Text('Analyze!')),
+              Text("Reversed Word: "),
+              Text("No of Consonants: "),
+              Text("No if Vowels: "),
+              Text("No of characters: "),
+              Text("Palindrome: ")
+            ]))
 
-          ]
-
-            )
-        )
-
-            /*const Text(
+        /*const Text(
               'You have pushed the button this many times:',
             ),*/
         );
