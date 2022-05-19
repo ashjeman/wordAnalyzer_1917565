@@ -1,4 +1,5 @@
-import 'dart:math';
+//Muhammad Asyraf Bin Azman
+//1917565
 
 import 'package:flutter/material.dart';
 
@@ -34,7 +35,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
   String _word = "";
   String _revWord = "";
   int _cons = 0;
@@ -46,6 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _word = word;
     });
+    _calculate();
   }
 
   void _setRevWord(String word) {
@@ -82,16 +83,50 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       if (word == revWord) {
         _pal = true;
+      } else {
+        _pal = false;
       }
     });
   }
 
-  //TextEditingController wordTEC = TextEditingController();
+  String _getWord() {
+    return _word;
+  }
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  String _getRevWord() {
+    return _revWord;
+  }
+
+  int _getChars() {
+    return _chars;
+  }
+
+  int _getVows() {
+    return _vows;
+  }
+
+  int _getCons() {
+    return _cons;
+  }
+
+  bool _getPal() {
+    return _pal;
+  }
+
+  void _calculate() {
+    _setChars(_word);
+    _setRevWord(_word);
+    _setVows(_word);
+    _setCons(_chars, _vows);
+    _setPal(_word, _revWord);
+  }
+
+  TextEditingController myController = new TextEditingController();
+
+  @override
+  void dispose() {
+    myController.dispose();
+    super.dispose();
   }
 
   @override
@@ -103,31 +138,33 @@ class _MyHomePageState extends State<MyHomePage> {
         body: Center(
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: const <Widget>[
-              Text(
-                "Enter your word",
-                style: TextStyle(fontSize: 20),
-              ),
-              TextField(
-                onChanged
-                //controller: wordTEC,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Your word',
+                children: <Widget>[
+              Container(
+                margin: EdgeInsets.all(20),
+                child: Text(
+                  "Enter your word:",
+                  style: TextStyle(fontSize: 20),
                 ),
               ),
-              TextButton(onPressed: null, child: Text('Analyze!')),
-              Text("Reversed Word: "),
-              Text("No of Consonants: "),
-              Text("No if Vowels: "),
-              Text("No of characters: "),
-              Text("Palindrome: ")
-            ]))
-
-        /*const Text(
-              'You have pushed the button this many times:',
-            ),*/
-        );
+              Container(
+                child: TextField(
+                  decoration: InputDecoration(border: OutlineInputBorder()),
+                  keyboardType: TextInputType.text,
+                  controller: myController,
+                ),
+              ),
+              ElevatedButton(
+                  onPressed: () => _setWord(myController.text),
+                  child: Text('Analyze!')),
+              Column(
+                children: <Widget>[
+                  Text("Reversed Word: $_revWord"),
+                  Text("No of Consonants: $_cons"),
+                  Text("No if Vowels: $_vows"),
+                  Text("No of characters: $_chars"),
+                  Text("Palindrome: $_pal")
+                ],
+              )
+            ])));
   }
 }
