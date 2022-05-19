@@ -80,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _setPal(String word, String revWord) {
     setState(() {
-      if (word = revWord) {
+      if (word == revWord) {
         _pal = true;
       }
     });
@@ -110,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextStyle(fontSize: 20),
               ),
               TextField(
-                onChanged: (text) {},
+                onChanged
                 //controller: wordTEC,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
